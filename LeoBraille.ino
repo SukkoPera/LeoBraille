@@ -1,8 +1,8 @@
-#include <PString.h>
-
 #include "ButtonsTM1638.h"
-
 ButtonsTM1638 buttons;
+
+#include "Leowriter.h"
+Leowriter writer;
 
 struct KeyboardStatus {
 	boolean lastWasSpace;
@@ -17,12 +17,17 @@ KeyboardStatus kbStatus = {
 };
 
 // 6 keys either pressed or not = 64 possible combinations
-#include <Keyboard.h>
+#include "keylayouts.h"
 #include "keycodes.h"
-
 
 void setup () {
 	Serial.begin (9600);
+	while (!Serial) {
+		; // wait for serial port to connect. Needed for native USB port only
+	}
+
+	Serial.println (F("LeoBraille"));
+
 	buttons.begin ();
 }
 
@@ -32,14 +37,16 @@ const unsigned long REPEAT_DELAY = 700;
 const unsigned long REPEAT_INTERVAL = 150;
 
 // Reads and debounces
-byte readButtons () {
-	static byte oldKeys = 0;
+word readButtons () {
+	static word oldKeys = 0;
 	static unsigned long pressedOn = 0;
 
-	byte ret = 0;
+	word ret = 0;
 
-	word allKeys = buttons.read ()
-	byte keys = allKeys & 0xFF;
+	word keys = buttons.read ();
+	//~ Serial.print (F("Keys = "));
+	//~ Serial.println (allKeys, BIN);
+
 	if (keys == oldKeys) {
 		if (millis () - pressedOn >= HOLD_TIME) {
 			// Same combo hold long enough
@@ -57,13 +64,13 @@ byte readButtons () {
 }
 
 // Reads and repeats
-byte readButtons2 () {
-	static byte oldKeys = 0;
+word readButtons2 () {
+	static word oldKeys = 0;
 	static unsigned long nextRepeat = 0;
 
-	byte ret = 0;
+	word ret = 0;
 
-	byte keys = readButtons ();
+	word keys = readButtons ();
 	if (keys != oldKeys) {
 		// First press of new combo, return it and wait for repeat delay
 		oldKeys = keys;
@@ -78,43 +85,69 @@ byte readButtons2 () {
 	return ret;
 }
 
-// http://stackoverflow.com/questions/2602823/in-c-c-whats-the-simplest-way-to-reverse-the-order-of-bits-in-a-byte
-byte bitReverse (byte b) {
-	b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
-	b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
-	b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
-	return b;
-}
-
-char buf[8 + 1] = {'\0'};
-
 void loop () {
-	byte keys = readButtons2 ();
+	word keys = readButtons2 ();
 	if (keys != 0) {
-		keys = bitReverse (keys);
+		//~ Serial.print (F("Keys deb+rep = "));
+		//~ Serial.println (keys, BIN);
 
-		char c;
-		if (keys & (1 << 3)) {
+		word c = '\0';
+		if (keys & Buttons::SPACE) {
+			Serial.println (F("Space"));
 			c = ' ';
+		} else if (keys & Buttons::ENTER) {
+			Serial.println (F("Enter"));
+			c = TKEY_ENTER & KEYCODE_MASK;
+		} else if (keys & Buttons::BACKSPACE) {
+			Serial.println (F("Backspace"));
+			c = TKEY_BACKSPACE & KEYCODE_MASK;
 		} else {
-			byte code = ((keys & 0xE0) >> 2) | (keys & 0x07);
+			// Extract lower 6 keys from combo, i.e. make it in range 0-63
+			byte code = keys & 0x3F;
+			Serial.print (F("combo = "));
 			Serial.print (code, BIN);
-			c = (char) pgm_read_byte (&keycodesLetterMode[code]);
-		}
-		if (c != '\0') {
-			byte b;
-			if (strlen (buf) == 8) {
-				for (b = 0; buf[b + 1] != '\0'; b++) {
-					buf[b] = buf[b + 1];
-				}
-				buf[b] = c;
-			} else {
-				buf[strlen (buf)] = c;
-			}
-			panel.setDisplayToString (buf);
 
-			Serial.print ("\t");
-			Serial.println (c);
+			// Map combo to ASCII character/modifier/function key
+			c = pgm_read_word (&keycodesLetterMode[code]);
+			if (c > 0) {
+				Serial.print (F(": char = 0x"));
+				Serial.print (c, HEX);
+
+				if (c < 128) {
+					// Direct ASCII character
+					Serial.print (" (");
+					Serial.print ((char) c);
+					Serial.println (")");
+				}
+			} else {
+				Serial.println (F(": Unknown"));
+			}
 		}
+
+		if (c != '\0') {		 // This shouldn't really fail by now
+			writer.write (c);
+		}
+
+#if 0
+			// Map ASCII character to keyboard scancode according to local keymap
+			byte scancode = keycodes_ascii[asciiChar - 0x20];
+			Serial.print (F(", scancode = "));
+			Serial.println ((int) scancode);
+			if (c != '\0') {
+				writer.write (asciiChar);
+				Serial.println ();
+			} else {
+
+			}
+#endif
+
+#if 0
+		if (c != '\0') {
+			//~ Serial.println (c);
+			Keyboard.pressRaw (c);
+			delay (20);
+			Keyboard.releaseAll ();
+		}
+#endif
 	}
 }

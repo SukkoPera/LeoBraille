@@ -40,26 +40,25 @@ for s in sorted (symbols.keys ()):
 	mtx = symbols[s]
 	#~ print "%s = %s" % (s, str (mtx))
 
-	# Keys are mapped to bits in reverse dot order:
-	# FIXME: 7 and 6 are prolly wrong
-	# 5 2
-	# 4 1
-	# 3 0
+	# Keys are mapped to bits in dot order:
+	# 0 3
+	# 1 4
+	# 2 5
 	# 7 6
 
 	b = 0
 	if mtx[0][0] == 'X':
-		b |= 1 << 5
-	if mtx[0][1] == 'X':
-		b |= 1 << 2
-	if mtx[1][0] == 'X':
-		b |= 1 << 4
-	if mtx[1][1] == 'X':
-		b |= 1 << 1
-	if mtx[2][0] == 'X':
-		b |= 1 << 3
-	if mtx[2][1] == 'X':
 		b |= 1 << 0
+	if mtx[0][1] == 'X':
+		b |= 1 << 3
+	if mtx[1][0] == 'X':
+		b |= 1 << 1
+	if mtx[1][1] == 'X':
+		b |= 1 << 4
+	if mtx[2][0] == 'X':
+		b |= 1 << 2
+	if mtx[2][1] == 'X':
+		b |= 1 << 5
 	if mtx[3][0] == 'X':
 		b |= 1 << 7
 	if mtx[3][1] == 'X':
@@ -90,7 +89,7 @@ print "const byte KEY_COMBOS_NO = 64;"
 print
 
 # Output character mode array
-print "const char keycodesLetterMode[KEY_COMBOS_NO] PROGMEM = {"
+print "const uint16_t keycodesLetterMode[KEY_COMBOS_NO] PROGMEM = {"
 i = 0
 for b in sorted (sym2bytes.keys ()):
 	c = sym2bytes[b][0]
@@ -99,8 +98,8 @@ for b in sorted (sym2bytes.keys ()):
 		print "\t'\\0',\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 		i += 1
 
-	if c is not None and len (c) == 1:
-		print "\t'%s',\t\t\t// %s (%d)" % (c, '0b{0:08b}'.format (b), b)
+	if c is not None and c[0] != '<':
+		print "\t%s,\t\t\t// %s (%d)" % (c, '0b{0:08b}'.format (b), b)
 	else:
 		print "\t'\\0',\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 	i += 1
@@ -108,7 +107,7 @@ print "};"
 print
 
 # Output number mode array
-print "const char keycodesNumberMode[KEY_COMBOS_NO] PROGMEM = {"
+print "const uint16_t keycodesNumberMode[KEY_COMBOS_NO] PROGMEM = {"
 i = 0
 for b in sorted (sym2bytes.keys ()):
 	n = sym2bytes[b][1]
@@ -118,13 +117,13 @@ for b in sorted (sym2bytes.keys ()):
 		i += 1
 
 	if n is not None and len (n) > 0:
-		print "\t'%s',\t\t\t// %s (%d)" % (n, '0b{0:08b}'.format (b), b)
+		print "\t%s,\t\t\t// %s (%d)" % (n, '0b{0:08b}'.format (b), b)
 		i += 1
 print "};"
 print
 
 # Output extra mode array
-print "const char keycodesExtraMode[KEY_COMBOS_NO] PROGMEM = {"
+print "const uint16_t keycodesExtraMode[KEY_COMBOS_NO] PROGMEM = {"
 i = 0
 for b in sorted (sym2bytes.keys ()):
 	e = sym2bytes[b][2]
