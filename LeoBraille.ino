@@ -94,13 +94,13 @@ void loop () {
 		word c = '\0';
 		if (keys & Buttons::SPACE) {
 			Serial.println (F("Space"));
-			c = ' ';
+			c = TKEY_SPACE;
 		} else if (keys & Buttons::ENTER) {
 			Serial.println (F("Enter"));
-			c = TKEY_ENTER & KEYCODE_MASK;
+			c = TKEY_ENTER;
 		} else if (keys & Buttons::BACKSPACE) {
 			Serial.println (F("Backspace"));
-			c = TKEY_BACKSPACE & KEYCODE_MASK;
+			c = TKEY_BACKSPACE;
 		} else {
 			// Extract lower 6 keys from combo, i.e. make it in range 0-63
 			byte code = keys & 0x3F;
