@@ -2,9 +2,9 @@
  * http://www.pjrc.com/teensy/
  * Copyright (c) 2013 PJRC.COM, LLC.
  *
- * The only modification here was to replace all KEY_* definitions with TKEI_*
+ * The only modification here was to replace all KEY_* definitions with TKEY_*
  * in order to avoid name clashes with definitions from the Arduino Keyboard
- * library.
+ * library. Also a comment for the selection of the desired keymap was added.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -42,6 +42,10 @@
 extern "C"{
 #endif
 
+/*******************************************************************************
+ * Uncomment your desired keyboard layout here                                 *
+ *******************************************************************************
+ */
 //#define LAYOUT_US_ENGLISH
 //#define LAYOUT_CANADIAN_FRENCH
 //#define LAYOUT_CANADIAN_MULTILINGUAL
