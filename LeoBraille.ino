@@ -124,30 +124,8 @@ void loop () {
 			}
 		}
 
-		if (c != '\0') {		 // This shouldn't really fail by now
+		if (c != '\0') {
 			writer.write (c);
 		}
-
-#if 0
-			// Map ASCII character to keyboard scancode according to local keymap
-			byte scancode = keycodes_ascii[asciiChar - 0x20];
-			Serial.print (F(", scancode = "));
-			Serial.println ((int) scancode);
-			if (c != '\0') {
-				writer.write (asciiChar);
-				Serial.println ();
-			} else {
-
-			}
-#endif
-
-#if 0
-		if (c != '\0') {
-			//~ Serial.println (c);
-			Keyboard.pressRaw (c);
-			delay (20);
-			Keyboard.releaseAll ();
-		}
-#endif
 	}
 }
