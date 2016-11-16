@@ -5,7 +5,7 @@ import datetime
 
 symbols = {}
 
-with open ("bmap.txt", "r") as fp:
+with open ("combos_it.txt", "r") as fp:
 	char = None
 	line = fp.readline ()
 	while line:

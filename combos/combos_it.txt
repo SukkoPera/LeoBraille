@@ -1,7 +1,17 @@
+# Descrizione delle combinazioni dei punti del sistema Braille per l'italiano
+#
 # Construito con dati provenienti da https://it.wikipedia.org/wiki/Braille
 #
 # I tasti extra sono mappati prendendo ispirazione da:
 # http://www.cavazza.it/invitoalbraille/html/m12.html
+
+# Formato:
+# :<letter_mode>:<number_mode>:<extra_mode>
+# seguito da 6-8 righe che schematizzano la rappresentazione del carattere,
+# usando una X per i punti "pieni" e un . per i punti "vuoti".
+#
+# E' possibile specificare un carattere ASCII tra apici singoli, oppure un tasto
+# ben preciso tra tutti quelli definiti in keylayouts.h con nome TKEY_*.
 
 # Numerazione dei punti:
 # 1 4
@@ -12,10 +22,6 @@
 ################################################################################
 # Caratteri
 ################################################################################
-
-# Formato: :<letter_mode>:<number_mode>:<extra_mode>
-# E' possibile specificare un carattere ASCII tra apici singoli, oppure un tasto
-# ben preciso tra tutti quelli definiti in keylayouts.h con nome TKEY_*.
 
 :'a':'1':TKEY_F1
 X.
