@@ -45,13 +45,13 @@ public:
 		word ret = touchsensor.touched & 0x3F;
 
 		// Sensor 7 is Space
-		ret |= ((word) (touchsensor.touched & (1 << 6))) << 2;
+		ret |= (touchsensor.touched & (1 << 6)) << 2;
 
 		// Sensor 8 is Enter
-		ret |= ((word) (touchsensor.touched & (1 << 7))) << 2;
+		ret |= (touchsensor.touched & (1 << 7)) << 2;
 
 		// Sensor 9 is Backspace
-		ret |= ((word) (touchsensor.touched & (1 << 8))) << 2;
+		ret |= (touchsensor.touched & (1 << 8)) << 2;
 
 		return ret;
 	}
