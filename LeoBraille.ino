@@ -1,5 +1,8 @@
-#include "ButtonsTM1638.h"
-ButtonsTM1638 buttons;
+//~ #include "ButtonsTM1638.h"
+//~ ButtonsTM1638 buttons;
+
+#include "ButtonsGroveI2CTouch.h"
+ButtonsGroveI2CTouch buttons;
 
 #include "Leowriter.h"
 Leowriter writer;
