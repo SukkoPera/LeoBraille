@@ -63,8 +63,6 @@ private:
 	}
 
 	void usb_keyboard_press_key (uint8_t key, uint8_t modifier) {
-		int i, send_required = 0;
-
 		if (modifier) {
 			Serial.print (F("Sending modifier: 0x"));
 			Serial.println (modifier + 0x7f, HEX);
