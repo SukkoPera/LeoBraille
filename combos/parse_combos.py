@@ -95,13 +95,13 @@ for b in sorted (sym2bytes.keys ()):
 	c = sym2bytes[b][0]
 	#~ print c
 	while b > i:
-		print "\t'\\0',\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 		i += 1
 
 	if c is not None and c[0] != '<':
-		print "\t%s,\t\t\t// %s (%d)" % (c, '0b{0:08b}'.format (b), b)
+		print "\t%s,\t\t\t\t\t// %s (%d)" % (c, '0b{0:08b}'.format (b), b)
 	else:
-		print "\t'\\0',\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 	i += 1
 print "};"
 print
@@ -113,11 +113,11 @@ for b in sorted (sym2bytes.keys ()):
 	n = sym2bytes[b][1]
 	#~ print n
 	while b > i:
-		print "\t'\\0',\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 		i += 1
 
 	if n is not None and len (n) > 0:
-		print "\t%s,\t\t\t// %s (%d)" % (n, '0b{0:08b}'.format (b), b)
+		print "\t%s,\t\t\t\t\t// %s (%d)" % (n, '0b{0:08b}'.format (b), b)
 		i += 1
 print "};"
 print
@@ -129,11 +129,11 @@ for b in sorted (sym2bytes.keys ()):
 	e = sym2bytes[b][2]
 	#~ print n
 	while b > i:
-		print "\t'\\0',\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 		i += 1
 
 	if e is not None and len (e) > 0:
-		print "\t%s,\t\t\t// %s (%d)" % (e, '0b{0:08b}'.format (b), b)
+		print "\t%s,\t\t\t\t\t// %s (%d)" % (e, '0b{0:08b}'.format (b), b)
 		i += 1
 print "};"
 
