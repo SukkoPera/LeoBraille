@@ -146,9 +146,3 @@ while i < KEY_COMBOS_NO:
 	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 	i += 1
 print "};"
-
-
-#~ processKey (char *s, KbState& state)
-#~
-#~ 0x10 -> print "a"
-#~ 0x25 -> parens
