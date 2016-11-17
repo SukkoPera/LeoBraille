@@ -12,6 +12,9 @@
 #
 # E' possibile specificare un carattere ASCII tra apici singoli, oppure un tasto
 # ben preciso tra tutti quelli definiti in keylayouts.h con nome TKEY_*.
+#
+# Per il buon funzionamento delle combinazioni di cambio modo, è necessario che
+# lo stesso tasto di cambio modo sia riportato in tutte e 3 le modalità.
 
 # Numerazione dei punti:
 # 1 4
@@ -205,13 +208,13 @@ XX
 # Simboli speciali
 ################################################################################
 
-:<number>
+:TKEY_MODE_NUMBERS:TKEY_MODE_NUMBERS:TKEY_MODE_NUMBERS
 .X
 .X
 XX
 
 # In inglese c'è solo il punto 6
-:<capital>
+:TKEY_MODE_UPPERCASE:TKEY_MODE_UPPERCASE:TKEY_MODE_UPPERCASE
 .X
 ..
 .X

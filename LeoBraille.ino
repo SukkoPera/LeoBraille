@@ -7,14 +7,26 @@ ButtonsGroveI2CTouch buttons;
 #include "Leowriter.h"
 Leowriter writer;
 
+enum KeyboardMode {
+	MD_NORMAL,		/// Normal mode, i.e.: lower-case letters
+	MD_UPPERCASE,	/// Upper case letters
+	MD_NUMBERS,		/// Numbers
+	MD_EXTRA		/// Extra keys
+};
+
 struct KeyboardStatus {
+	// Keyboard mode
+	KeyboardMode mode;
+
+	// True if current non-letter mode shall be kept until the end of the word
+	boolean modeLock;
+
+	// True if the last character was whitespace
 	boolean lastWasSpace;
-	boolean nextIsUpperCase;
-	boolean nextIsNumber;
 };
 
 KeyboardStatus kbStatus = {
-	false,
+	MD_NORMAL,
 	false,
 	false
 };
@@ -96,8 +108,17 @@ void loop () {
 
 		word c = '\0';
 		if (keys & Buttons::SPACE) {
-			Serial.println (F("Space"));
+			Serial.print (F("Space"));
 			c = TKEY_SPACE;
+
+			// If in a locked non-normal state, let's go back to normal mode
+			if (kbStatus.mode != MD_NORMAL && kbStatus.modeLock) {
+				Serial.println (F(" -> Change mode to NORMAL"));
+				kbStatus.mode = MD_NORMAL;
+				kbStatus.modeLock = false;
+			} else {
+				Serial.println ();
+			}
 		} else if (keys & Buttons::ENTER) {
 			Serial.println (F("Enter"));
 			c = TKEY_ENTER;
@@ -111,7 +132,26 @@ void loop () {
 			Serial.print (code, BIN);
 
 			// Map combo to ASCII character/modifier/function key
-			c = pgm_read_word (&keycodesLetterMode[code]);
+			switch (kbStatus.mode) {
+				default:
+					// What the heck!?
+					kbStatus.mode = MD_NORMAL;
+					// Fall through
+				case MD_NORMAL:
+					c = pgm_read_word (&keycodesLetterMode[code]);
+					break;
+				case MD_UPPERCASE:
+					c = pgm_read_word (&keycodesLetterMode[code]);
+					c = toupper (c);
+					break;
+				case MD_NUMBERS:
+					c = pgm_read_word (&keycodesNumberMode[code]);
+					break;
+				case MD_EXTRA:
+					c = pgm_read_word (&keycodesExtraMode[code]);
+					break;
+			}
+
 			if (c > 0) {
 				Serial.print (F(": char = 0x"));
 				Serial.print (c, HEX);
@@ -121,6 +161,48 @@ void loop () {
 					Serial.print (" (");
 					Serial.print ((char) c);
 					Serial.println (")");
+				} else if (c >= 0xEE00 && c <= 0xEEFF) {
+					// Mode change
+					switch (c) {
+						case TKEY_MODE_NUMBERS:
+							if (kbStatus.mode != MD_NUMBERS) {
+								Serial.println (F(" -> Change mode to NUMBERS"));
+								kbStatus.mode = MD_NUMBERS;
+								kbStatus.modeLock = false;
+							} else if (!kbStatus.modeLock) {
+								// Double pressure, keep mode until word (erm, number) end
+								Serial.println (F(" -> Lock mode to NUMBERS"));
+								kbStatus.modeLock = true;
+							} else {
+								// Triple pressure, back to normal mode
+								Serial.println (F(" -> Change mode to NORMAL"));
+								kbStatus.mode = MD_NORMAL;
+								kbStatus.modeLock = false;
+							}
+							break;
+						case TKEY_MODE_UPPERCASE:
+							if (kbStatus.mode != MD_UPPERCASE) {
+								Serial.println (F(" -> Change mode to UPPERCASE"));
+								kbStatus.mode = MD_UPPERCASE;
+								kbStatus.modeLock = false;
+							} else if (!kbStatus.modeLock) {
+								// Double pressure, keep mode until word end
+								Serial.println (F(" -> Lock mode to UPPERCASE"));
+								kbStatus.modeLock = true;
+							} else {
+								// Triple pressure, back to normal mode
+								Serial.println (F(" -> Change mode to NORMAL"));
+								kbStatus.mode = MD_NORMAL;
+								kbStatus.modeLock = false;
+							}
+							break;
+						default:
+							// ???
+							break;
+					}
+
+					// Nothing to write
+					c = '\0';
 				}
 			} else {
 				Serial.println (F(": Unknown"));
@@ -129,6 +211,12 @@ void loop () {
 
 		if (c != '\0') {
 			writer.write (c);
+
+			// Finally update keyboard status
+			if (!kbStatus.modeLock) {
+				kbStatus.mode = MD_NORMAL;
+			}
+			kbStatus.lastWasSpace = isspace (c);
 		}
 	}
 }

@@ -2,9 +2,15 @@
  * http://www.pjrc.com/teensy/
  * Copyright (c) 2013 PJRC.COM, LLC.
  *
- * The only modification here was to replace all KEY_* definitions with TKEY_*
- * in order to avoid name clashes with definitions from the Arduino Keyboard
- * library. Also a comment for the selection of the desired keymap was added.
+ * The only modifications here were:
+ * - Replacing all KEY_* definitions with TKEY_* in order to avoid name clashes
+ *   with definitions from the Arduino Keyboard library.
+ * - Adding TKEY_MODE_* definitions, which we use to switch among the various
+ *   keyboard modes.
+ * - Adding a comment for the selection of the desired keymap.
+ *
+ * Since the modifications are really trivial, this file will maintain its
+ * original license:
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -70,6 +76,13 @@ extern "C"{
 //#define LAYOUT_UNITED_KINGDOM
 //#define LAYOUT_US_INTERNATIONAL
 
+
+/* These codes do not represent actual keys, but are used to indicate that the
+ * current keyboard mode should be changed.
+ */
+#define TKEY_MODE_UPPERCASE		( 0x01 | 0xEE00 )
+#define TKEY_MODE_NUMBERS		( 0x02 | 0xEE00 )
+#define TKEY_MODE_EXTRA			( 0x03 | 0xEE00 )
 
 
 // http://en.wikipedia.org/wiki/Keyboard_layout
