@@ -85,7 +85,8 @@ print "// Created on %s" % datetime.datetime.now ()
 print
 
 # Output array size
-print "const byte KEY_COMBOS_NO = 64;"
+KEY_COMBOS_NO = 64
+print "const byte KEY_COMBOS_NO = %d;" % KEY_COMBOS_NO
 print
 
 # Output character mode array
@@ -103,6 +104,9 @@ for b in sorted (sym2bytes.keys ()):
 	else:
 		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
 	i += 1
+while i < KEY_COMBOS_NO:
+	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	i += 1
 print "};"
 print
 
@@ -119,6 +123,9 @@ for b in sorted (sym2bytes.keys ()):
 	if n is not None and len (n) > 0:
 		print "\t%s,\t\t\t\t\t// %s (%d)" % (n, '0b{0:08b}'.format (b), b)
 		i += 1
+while i < KEY_COMBOS_NO:
+	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	i += 1
 print "};"
 print
 
@@ -135,6 +142,9 @@ for b in sorted (sym2bytes.keys ()):
 	if e is not None and len (e) > 0:
 		print "\t%s,\t\t\t\t\t// %s (%d)" % (e, '0b{0:08b}'.format (b), b)
 		i += 1
+while i < KEY_COMBOS_NO:
+	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	i += 1
 print "};"
 
 
