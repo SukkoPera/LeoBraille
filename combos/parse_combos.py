@@ -81,6 +81,19 @@ for s in sorted (symbols.keys ()):
 
 ################################################################################
 
+COMMENT_COL = 40
+TAB_WIDTH = 4
+NULL_CHAR = "'\\0'"
+
+def makeLine (c, i):
+	s = "\t" + str (c) + ","
+	l = TAB_WIDTH + len (c) + 1
+	while l < COMMENT_COL:
+		s += '\t'
+		l += TAB_WIDTH - (l % TAB_WIDTH)
+	s += "// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	return s
+
 # Output creation date
 print "// Created on %s" % datetime.datetime.now ()
 print
@@ -97,16 +110,16 @@ for b in sorted (sym2bytes.keys ()):
 	c = sym2bytes[b][0]
 	#~ print c
 	while b > i:
-		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print makeLine (NULL_CHAR, i)
 		i += 1
 
 	if c is not None and c[0] != '<':
-		print "\t%s,\t\t\t\t\t// %s (%d)" % (c, '0b{0:08b}'.format (b), b)
+		print makeLine (c, b)
 	else:
-		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print makeLine (NULL_CHAR, i)
 	i += 1
 while i < KEY_COMBOS_NO:
-	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	print makeLine (NULL_CHAR, i)
 	i += 1
 print "};"
 print
@@ -118,14 +131,14 @@ for b in sorted (sym2bytes.keys ()):
 	n = sym2bytes[b][1]
 	#~ print n
 	while b > i:
-		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print makeLine (NULL_CHAR, i)
 		i += 1
 
 	if n is not None and len (n) > 0:
-		print "\t%s,\t\t\t\t\t// %s (%d)" % (n, '0b{0:08b}'.format (b), b)
+		print makeLine (n, b)
 		i += 1
 while i < KEY_COMBOS_NO:
-	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	print makeLine (NULL_CHAR, i)
 	i += 1
 print "};"
 print
@@ -137,13 +150,13 @@ for b in sorted (sym2bytes.keys ()):
 	e = sym2bytes[b][2]
 	#~ print n
 	while b > i:
-		print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+		print makeLine (NULL_CHAR, i)
 		i += 1
 
 	if e is not None and len (e) > 0:
-		print "\t%s,\t\t\t\t\t// %s (%d)" % (e, '0b{0:08b}'.format (b), b)
+		print makeLine (e, b)
 		i += 1
 while i < KEY_COMBOS_NO:
-	print "\t'\\0',\t\t\t\t\t// %s (%d)" % ('0b{0:08b}'.format (i), i)
+	print makeLine (NULL_CHAR, i)
 	i += 1
 print "};"
