@@ -203,6 +203,8 @@ void loop () {
 
 					// Nothing to write
 					c = '\0';
+				} else {
+					Serial.println ();
 				}
 			} else {
 				Serial.println (F(": Unknown"));
