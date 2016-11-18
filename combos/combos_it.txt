@@ -1,17 +1,24 @@
 # Descrizione delle combinazioni dei punti del sistema Braille per l'italiano
 #
-# Construito con dati provenienti da https://it.wikipedia.org/wiki/Braille
-#
-# I tasti extra sono mappati prendendo ispirazione da:
-# http://www.cavazza.it/invitoalbraille/html/m12.html
+# Construito con dati provenienti dalle seguenti fonti:
+# - https://it.wikipedia.org/wiki/Braille
+# - http://www.uicroma.it/Documenti/Vari/Il%20Braille.pdf
+# - https://www.bibliotecaciechi.it/system/files/Documents/Codice_Braille.pdf
 
-# Formato:
+# Formato di questo file:
 # :<letter_mode>:<number_mode>:<extra_mode>
 # seguito da 6-8 righe che schematizzano la rappresentazione del carattere,
 # usando una X per i punti "pieni" e un . per i punti "vuoti".
 #
-# E' possibile specificare un carattere ASCII tra apici singoli, oppure un tasto
-# ben preciso tra tutti quelli definiti in keylayouts.h con nome TKEY_*.
+# E' possibile specificare un simbolo nei seguenti modi:
+# - Carattere stesso tra apici singoli, usare solo per ASCII 0-127
+# - Codice ASCII
+# - Codice Unicode diretto nell'intervallo 128 - 0xC1FF
+# - Codice Unicode UTF-8 nell'intervallo 0xC200 - 0xDFFF
+# - Tasto tra tutti quelli definiti in keylayouts.h con nome TKEY_*.
+#
+# Tenete presente che quello che scrivete finisce in un header C, quindi in
+# generale va rispettata la sintassi di tale linguaggio.
 #
 # Per il buon funzionamento delle combinazioni di cambio modo, è necessario che
 # lo stesso tasto di cambio modo sia riportato in tutte e 3 le modalità.
@@ -158,10 +165,126 @@ XX
 
 
 ################################################################################
+# Lettere accentate
+################################################################################
+
+# a grave
+:0xC3A0
+X.
+XX
+XX
+
+# a circonflesso
+:0xC3A2
+X.
+..
+.X
+
+# a dieresi
+# In alternativa ae = Unicode 0xC3A6
+:0xC3A4
+.X
+.X
+X.
+
+# e acuto
+:0xC3A9
+XX
+XX
+XX
+
+# e grave
+:0xC3A8
+.X
+X.
+XX
+
+# e circonflesso
+:0xC3AA
+X.
+X.
+.X
+
+# e dieresi
+:0xC3AB
+XX
+X.
+.X
+
+# i grave
+:0xC3AC
+.X
+..
+X.
+
+# i circonflesso
+:0xC3AE
+XX
+..
+.X
+
+# i dieresi
+:0xC3AF
+XX
+XX
+.X
+
+# o grave
+:0xC3B2
+.X
+..
+XX
+
+# o circonflesso
+:0xC3B4
+XX
+.X
+.X
+
+# o dieresi
+# In alternativa: oe = Unicode 0xC593
+:0xC3B6
+.X
+X.
+.X
+
+# u grave
+:0xC3B9
+.X
+XX
+XX
+
+# u circonflesso
+:0xC3BB
+X.
+.X
+.X
+
+# u dieresi
+:0xC3BC
+X.
+XX
+.X
+
+
+################################################################################
+# Lettere "straniere"
+################################################################################
+
+# Sarebbe lo stesso della graffa aperta, evitiamo (o mettiamo quella in modalità
+# numeri)
+# c cediglia
+#:0x
+#XX
+#X.
+#XX
+
+################################################################################
 # Segni di punteggiatura
 ################################################################################
 
-:'.'
+# Punto/Segno di divisione
+:'.':'/'
 ..
 XX
 .X
@@ -171,10 +294,17 @@ XX
 X.
 ..
 
-:'?'
+:'?':'('
 ..
 X.
 .X
+
+# Due punti, visto che è il separatore di campo usiamo direttamente il codice
+# ASCII
+:0x3A
+..
+XX
+..
 
 :';'
 ..
@@ -186,22 +316,91 @@ X.
 XX
 X.
 
-# Virgolette aperte
-:'\"'
+:'\''
+..
+..
+X.
+
+# Virgolette aperte/Segno di moltiplicazione
+# Per le virgolette si può usare Unicode 0xC2AB
+:'\"':0xC397
 ..
 X.
 XX
 
-# Virgolette chiuse
-:'\"'
+# Virgolette chiuse/Simbolo dei gradi
+# Per le virgolette si può usare Unicode 0xC2BB
+:'\"':0xC2B0
 ..
 .X
 XX
 
-:'-'
+# Trattino/Segno di sottrazione
+:'-':'-'
 ..
 ..
 XX
+
+:'*':')'
+..
+.X
+X.
+
+
+################################################################################
+# Simboli matematici
+################################################################################
+
+# N.B: Alcuni simboli si fanno con le stesse combinazioni dei segni di
+# punteggiatura, basta essere in modalità numeri. Qua si trovano solo i simboli
+# che hanno una rappresentazione univoca, e la gestiamo sia in modalità lettere
+# che in modalità numeri
+
+:'+':'+'
+..
+XX
+X.
+
+:'=':'='
+..
+XX
+XX
+
+:'[':'['
+X.
+XX
+XX
+
+:']':']'
+.X
+XX
+XX
+
+:'{':'{'
+XX
+X.
+XX
+
+:'}':'}'
+XX
+.X
+XX
+
+:'>':'>'
+.X
+.X
+X.
+
+:'<':'<'
+X.
+X.
+.X
+
+# Questo e' uguale al simbolo delle maiuscole???
+#:'%'
+#.X
+#..
+#.X
 
 
 ################################################################################
