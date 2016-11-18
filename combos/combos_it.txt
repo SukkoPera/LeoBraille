@@ -12,7 +12,7 @@
 #
 # E' possibile specificare un simbolo nei seguenti modi:
 # - Carattere stesso tra apici singoli, usare solo per ASCII 0-127
-# - Codice ASCII
+# - Codice ASCII diretto nell'intervallo 0-127
 # - Codice Unicode diretto nell'intervallo 128 - 0xC1FF
 # - Codice Unicode UTF-8 nell'intervallo 0xC200 - 0xDFFF
 # - Tasto tra tutti quelli definiti in keylayouts.h con nome TKEY_*.
