@@ -69,7 +69,8 @@ for s in sorted (symbols.keys ()):
 	if c == 0:
 		s = [s, None, None]
 	elif c == 1:
-		s = s.split (':').extend (None)
+		s = s.split (':')
+		s.append (None)
 	elif c == 2:
 		s = s.split (':')
 	else:
