@@ -1,8 +1,5 @@
-/* This file has been taken almost verbatim from the Teensyduino Core Library
- * http://www.pjrc.com/teensy/
- * Copyright (c) 2013 PJRC.COM, LLC.
- *
- * The only modifications here were:
+/* This file is part of LeoBraille but was taken almost verbatim from the
+ * Teensyduino Core Library. The only modifications were:
  * - Replacing all KEY_* definitions with TKEY_* in order to avoid name clashes
  *   with definitions from the Arduino Keyboard library.
  * - Adding TKEY_MODE_* definitions, which we use to switch among the various
@@ -11,6 +8,10 @@
  *
  * Since the modifications are really trivial, this file will maintain its
  * original license:
+ *
+ * Teensyduino Core Library
+ * http://www.pjrc.com/teensy/
+ * Copyright (c) 2013 PJRC.COM, LLC.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the

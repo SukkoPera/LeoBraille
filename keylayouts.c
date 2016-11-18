@@ -1,4 +1,7 @@
-/* Teensyduino Core Library
+/* This file is part of LeoBraille but was taken verbatim from the Teensyduino
+ * Core Library, thus it will maintain its original license:
+ *
+ * Teensyduino Core Library
  * http://www.pjrc.com/teensy/
  * Copyright (c) 2013 PJRC.COM, LLC.
  *

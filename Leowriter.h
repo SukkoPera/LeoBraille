@@ -1,4 +1,7 @@
-/* This file includes code borrowed from the Teensyduino Core Library
+/* This file is part of LeoBraille, but most code in this file was borrowed from
+ * the Teensyduino Core Library, thus * it will maintain its original license:
+ *
+ * Teensyduino Core Library
  * http://www.pjrc.com/teensy/
  * Copyright (c) 2016 PJRC.COM, LLC.
  *
