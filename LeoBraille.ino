@@ -71,62 +71,8 @@ void setup () {
 	buttons.begin ();
 }
 
-// ms
-const unsigned long HOLD_TIME = 80;
-const unsigned long REPEAT_DELAY = 700;
-const unsigned long REPEAT_INTERVAL = 150;
-
-// Reads and debounces
-word readButtons () {
-	static word oldKeys = 0;
-	static unsigned long pressedOn = 0;
-
-	word ret = 0;
-
-	word keys = buttons.read ();
-	//~ Serial.print (F("Keys = "));
-	//~ Serial.println (allKeys, BIN);
-
-	if (keys == oldKeys) {
-		if (millis () - pressedOn >= HOLD_TIME) {
-			// Same combo hold long enough
-			ret = keys;
-		} else {
-			// Combo hold not yet long enough
-		}
-	} else {
-		// Keys bouncing
-		oldKeys = keys;
-		pressedOn = millis ();
-	}
-
-	return ret;
-}
-
-// Reads and repeats
-word readButtons2 () {
-	static word oldKeys = 0;
-	static unsigned long nextRepeat = 0;
-
-	word ret = 0;
-
-	word keys = readButtons ();
-	if (keys != oldKeys) {
-		// First press of new combo, return it and wait for repeat delay
-		oldKeys = keys;
-		ret = keys;
-		nextRepeat = millis () + REPEAT_DELAY;
-	} else if (keys != 0 && millis () >= nextRepeat) {
-		// Combo kept pressed, return it and wait for repeat interval
-		ret = keys;
-		nextRepeat = millis () + REPEAT_INTERVAL;
-	}
-
-	return ret;
-}
-
 void loop () {
-	word keys = readButtons2 ();
+	word keys = buttons.readButtons2 ();
 	if (keys != 0) {
 		//~ Serial.print (F("Keys deb+rep = "));
 		//~ Serial.println (keys, BIN);
