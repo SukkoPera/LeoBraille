@@ -34,6 +34,10 @@
 #ifndef LEOWRITER_H_INCLUDED
 #define LEOWRITER_H_INCLUDED
 
+#if !defined(ARDUINO_AVR_LEONARDO) && !defined(ARDUINO_AVR_MICRO)
+	#error "This file requires an Arduino Leonardo or Micro!"
+#endif
+
 #include <Keyboard.h>
 
 #include "Typewriter.h"
