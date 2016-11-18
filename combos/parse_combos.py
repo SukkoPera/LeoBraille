@@ -1,11 +1,22 @@
 #!/usr/bin/env python
 
+# Run this script like this:
+# ./parse_combos.py combos_XX.txt > keycodes.h
+#
+# Note that this is untested on Windows/OSX!
+
 import sys
 import datetime
+import argparse
+
+parser = argparse.ArgumentParser (description = 'Convert Braille character combos for use with LeoBraille')
+parser.add_argument ('combos', metavar = "COMBOS_FILE", help = "File containing Braille combos")
+
+args = parser.parse_args ()
 
 symbols = {}
 
-with open ("combos_it.txt", "r") as fp:
+with open (args.combos, "r") as fp:
 	char = None
 	line = fp.readline ()
 	while line:
