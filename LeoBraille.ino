@@ -26,6 +26,9 @@
 //~ #include "ButtonsTM1638.h"
 //~ ButtonsTM1638 buttons;
 
+//~ #include "ButtonsQYFTM1638x2.h"
+//~ ButtonsQYFTM1638x2 buttons;
+
 #include "ButtonsGroveI2CTouch.h"
 ButtonsGroveI2CTouch buttons;
 
