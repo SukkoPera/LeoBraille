@@ -23,17 +23,68 @@
  * https://github.com/SukkoPera/LeoBraille
  */
 
+/*******************************************************************************
+ * INPUT DRIVER SELECTION
+ *******************************************************************************
+ *
+ * LeoBraille supports different input methods, and it's very easy to add new
+ * ones (just subclass the Buttons class). Enable only one of the following:
+ */
+
+/* TM1638-based board with 8 7-segment displays, 8 leds and 8 buttons: the left-
+ * and right-most buttons are the dot keys, the central buttons are space and
+ * backspace.
+ *
+ * This is mainly useful for development, as it was the only board I had with so
+ * many buttons when I started this project.
+ */
 //~ #include "ButtonsTM1638.h"
 //~ ButtonsTM1638 buttons;
 
+/* 2x QYF-TM1338 boards, with 8 7-segment displays and a 4x4 button matrix: the
+ * bottom row of buttons (S13-S16) behaves the same as the above board.
+ * Additionally, backspace is mapped to S12.
+ *
+ * Again, mainly useful for development with a lot more keys available.
+ */
 //~ #include "ButtonsQYFTM1638x2.h"
 //~ ButtonsQYFTM1638x2 buttons;
 
+/* Grove I2C Touch Sensor by Seeed Studio: the first 6 sensors are the dot keys,
+ * then we have Space, Enter and Backspace.
+ *
+ * This is arguably the only useful target for actual use :), so it's the
+ * default.
+ */
 #include "ButtonsGroveI2CTouch.h"
 ButtonsGroveI2CTouch buttons;
 
+
+/*******************************************************************************
+ * OUTPUT DRIVER SELECTION
+ *******************************************************************************
+ *
+ * LeoBraille supports different output methods, and it's very easy to add new
+ * ones (just subclass the Typewriter class). Enable only one of the following:
+ */
+
+/* Writes character to the serial port.
+ *
+ * Mainly useful for development and debugging, can be used with any Arduino
+ * board.
+ */
+//~ #include "SerialWriter.h"
+//~ SerialWriter writer;
+
+/* Emulates a USB keyboard using an Arduino Leonardo or Due (untested).
+ *
+ * Again, this is the only useful target for actual use, so it's the default.
+ */
 #include "Leowriter.h"
 Leowriter writer;
+
+
+
 
 enum KeyboardMode {
 	MD_NORMAL,		/// Normal mode, i.e.: lower-case letters
