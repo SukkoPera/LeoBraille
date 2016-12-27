@@ -78,7 +78,7 @@ void loop () {
 		//~ Serial.println (keys, BIN);
 
 		word c = '\0';
-		if (keys & Buttons::SPACE) {
+		if (keys & Buttons::K_SPACE) {
 			Serial.print (F("Space"));
 			c = TKEY_SPACE;
 
@@ -90,10 +90,10 @@ void loop () {
 			} else {
 				Serial.println ();
 			}
-		} else if (keys & Buttons::ENTER) {
+		} else if (keys & Buttons::K_ENTER) {
 			Serial.println (F("Enter"));
 			c = TKEY_ENTER;
-		} else if (keys & Buttons::BACKSPACE) {
+		} else if (keys & Buttons::K_BACKSPACE) {
 			Serial.println (F("Backspace"));
 			c = TKEY_BACKSPACE;
 		} else {

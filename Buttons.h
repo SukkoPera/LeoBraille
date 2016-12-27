@@ -28,9 +28,19 @@
 
 class Buttons {
 public:
-	static const word SPACE = ((word) 1) << 8;
-	static const word ENTER = ((word) 1) << 9;
-	static const word BACKSPACE = ((word) 1) << 10;
+	enum Keys {
+		K_DOT1 = 1 << 0,
+		K_DOT2 = 1 << 1,
+		K_DOT3 = 1 << 2,
+		K_DOT4 = 1 << 3,
+		K_DOT5 = 1 << 4,
+		K_DOT6 = 1 << 5,
+		K_DOT7 = 1 << 6,
+		K_DOT8 = 1 << 7,
+		K_SPACE = 1 << 8,
+		K_ENTER = 1 << 9,
+		K_BACKSPACE = 1 << 10
+	};
 
 	/* Combo debounce time: The combo will be considered valid only after it has
 	 * been stable for this amount of milliseconds

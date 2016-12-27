@@ -70,13 +70,13 @@ public:
 		word ret = touchsensor.touched & 0x3F;
 
 		// Sensor 7 is Space
-		ret |= (touchsensor.touched & (1 << 6)) << 2;
+		ret |= (touchsensor.touched & (1 << 6)) ? Buttons::K_SPACE : 0;
 
 		// Sensor 8 is Enter
-		ret |= (touchsensor.touched & (1 << 7)) << 2;
+		ret |= (touchsensor.touched & (1 << 7)) ? Buttons::K_ENTER : 0;
 
 		// Sensor 9 is Backspace
-		ret |= (touchsensor.touched & (1 << 8)) << 2;
+		ret |= (touchsensor.touched & (1 << 8)) ? Buttons::K_BACKSPACE : 0;
 
 		return ret;
 	}

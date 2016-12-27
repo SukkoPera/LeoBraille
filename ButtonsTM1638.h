@@ -52,10 +52,10 @@ public:
 		word ret = ((keys & 0xE0) >> 2) | (keys & 0x07);
 
 		// Space
-		ret |= ((word) (keys & 0x10)) << 4;
+		ret |= ((word) (keys & 0x10)) ? Buttons::K_SPACE : 0;
 
 		// Backspace
-		ret |= ((word) (keys & 0x08)) << 7;
+		ret |= ((word) (keys & 0x08)) ? Buttons::K_BACKSPACE : 0;
 
 		//~ Serial.print (F("Panel ret keys = "));
 		//~ Serial.println (ret, BIN);
